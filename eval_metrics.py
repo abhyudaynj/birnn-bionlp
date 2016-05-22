@@ -4,8 +4,6 @@ from nltk.metrics import ConfusionMatrix
 IGNORE_TAG='None'
 
 
-x=[['None','None','ADE','ADE','Other','None','None','drugname','drugname','drugname']]
-y=[['ADE','None','ADE','None','Other','indication','None','None','None','None']]
 
 def get_labels(label,predicted):
     labels = list(set(itertools.chain.from_iterable(label)) | set(itertools.chain.from_iterable(predicted)))

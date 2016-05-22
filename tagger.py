@@ -30,9 +30,7 @@ wl=logging.getLogger(__name__+'_write')
 
 def pad_and_mask(X,Y, maxlen=None,padding='pre', value=0.):
     '''
-        Override keras method to allow multiple feature dimensions.
-
-        @dim: input feature dimension (number of features per timestep)
+        adapted from keras pad_and_mask function
     '''
     lengths = [len(s) for s in Y]
     if maxlen is None:
@@ -342,9 +340,8 @@ def cross_validation_run():
 
     
 if __name__=="__main__":
-    #DATASET_DEFAULT='/home/abhyuday/temp/ADE/lasagne_combined_umass.pkl'
-    DATASET_DEFAULT='/home/abhyuday/temp/NAACL/data/NAACL_cancer_processed.pkl'
-    DEFAULT_DUMP_DIR='/home/abhyuday/temp/ADE/'
+    DATASET_DEFAULT='temp/NAACL/data/NAACL_cancer_processed.pkl'
+    DEFAULT_DUMP_DIR='temp/ADE/'
     nonlinearity={'tanh':lasagne.nonlinearities.tanh ,'softmax':lasagne.nonlinearities.softmax}
 
     #parsing arguments

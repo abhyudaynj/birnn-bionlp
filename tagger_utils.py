@@ -21,8 +21,6 @@ def get_vocab(tagged_data):
         vocab_set= vocab_set | set([x[0].lower() for x,y in tagged_data[i] if x[0] !='\x00'])
         tag_set = tag_set | set([y for x,y in tagged_data[i]])
     print('Tag Set :',tag_set)
-    #pickle.dump(vocab_set,open('/home/abhyuday/temp/ADE/vocab_set_short.pkl','wb'))
-    #vocab_set = pickle.load(open('/home/abhyuday/temp/ADE/vocab_set_short.pkl','rb'))
     return vocab_set,tag_set
 
 
@@ -36,7 +34,7 @@ def trim_tags(tagged_data):
 def get_embedding_weights(w2i):
     i2w={i: word for word, i in w2i.iteritems()}
     logging.info('embedding sanity check (should be a word) :{0}'.format(i2w[12]))
-    mdl=gensim.models.Word2Vec.load_word2vec_format('/home/abhyuday/temp/NAACL/data/pubmed+wiki+pitts-nopunct-lower.bin',binary=True)
+    mdl=gensim.models.Word2Vec.load_word2vec_format('data/pubmed+wiki+pitts-nopunct-lower.bin',binary=True)
     logging.info('{0},{1}'.format(mdl['is'].shape,len(w2i)))
     emb_i=np.array([mdl[str(i2w[i])] if i in i2w and str(i2w[i]) in mdl else np.zeros(mdl['is'].shape[0],) for i in xrange(len(w2i))])
     return emb_i
@@ -44,8 +42,7 @@ def get_embedding_weights(w2i):
 
 def encode_words(entire_note):
     logging.info('Reading Data Files ...')
-    #tagged_data=pickle.load(open('/home/abhyuday/temp/NAACL/data/NAACL_cancer.pkl','rb'))
-    tagged_data=pickle.load(open('/home/abhyuday/temp/NAACL/data/NAACL_extracted_with_punct_dummpyPOS.pkl','rb'))
+    tagged_data=pickle.load(open('data/NAACL_extracted_with_punct_dummpyPOS.pkl','rb'))
     shuffle(tagged_data)
     #flattening notes into sentences.
     if entire_note:
@@ -98,7 +95,7 @@ def load_data(nb_words=None, skip_top=0, maxlen=100, test_split=0.2, seed=113,
         Z=[z1[:maxlen] for z1 in Z]  #to remove computation burden
         Y=[y1[:maxlen] for y1 in Y]  #to remove computation burden
     if entire_note ==False:
-        pickle.dump(((X,Z,Y), numTags, emb_w ,t2i,w2i),open('/home/abhyuday/temp/NAACL/data/NAACL_cancer_processed.pkl','wb'))
+        pickle.dump(((X,Z,Y), numTags, emb_w ,t2i,w2i),open('data/NAACL_cancer_processed.pkl','wb'))
     return (X,Z,Y),numTags,emb_w,t2i,w2i
 
 
